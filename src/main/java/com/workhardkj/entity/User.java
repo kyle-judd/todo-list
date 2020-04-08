@@ -1,6 +1,7 @@
 package com.workhardkj.entity;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +31,9 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Todo> todos;
+	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", 
 	joinColumns = @JoinColumn(name = "user_id"), 
@@ -39,10 +44,11 @@ public class User {
 		
 	}
 	
-	public User(String username, String password, Collection<Role> roles) {
+	public User(String username, String password, Collection<Role> roles, List<Todo> todos) {
 		this.username = username;
 		this.password = password;
 		this.roles = roles;
+		this.todos = todos;
 	}
 
 	public Long getId() {
@@ -75,6 +81,14 @@ public class User {
 
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
+	}
+	
+	public List<Todo> getTodos() {
+		return todos;
+	}
+
+	public void setTodos(List<Todo> todos) {
+		this.todos = todos;
 	}
 
 	@Override
