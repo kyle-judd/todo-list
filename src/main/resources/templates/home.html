@@ -4,19 +4,34 @@
 	<meta charset="UTF-8">
 	<title>Home</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+	<link href="../static/css/login.css" th:href="@{/css/home.css}" rel="stylesheet">
 </head>
 <body>
-	<div class="container">
-		<a class="btn btn-primary" href="" th:href="@{/addTodo}">New Todo</a>
+	<div class="container mt-5">
+		<div class="jumbotron">
+		  <h1 class="display-4">Your Todos</h1>
+		  <p class="lead">This is a simple todo list app to manage all of your tasks</p>
+		  <a class="btn btn-primary btn-lg" href="#" th:href="@{/addTodo}" role="button">New Todo</a>
+		</div>
 		<table class="table table-striped">
 	      <tr>
 	        <th>Description</th>
 	        <th>Deadline</th>
+	        <th>Action</th>
 	      </tr>
 	      <tr th:each="todo : ${allTodos}">
 	        <td th:text="${todo.description}"></td>
 	        <td th:text="${todo.deadline}"></td>
+	        <td>
+				<a th:href="@{/updateTodo(todoId=${todo.id})}" class="btn btn-primary">
+					Update
+				</a>			
+				<a th:href="@{/deleteTodo(todoId=${todo.id})}" class="btn btn-danger"
+					onclick="if (!(confirm('Are you sure you want to delete this task?'))) return false">
+					Delete
+				</a>					
+			</td>
 	      </tr>
 	    </table>
     </div>

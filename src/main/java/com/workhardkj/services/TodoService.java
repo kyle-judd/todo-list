@@ -8,5 +8,5 @@ public interface TodoService {
 	Todo findTodoById(Long id) throws Exception;
 	List<Todo> findAllTodosByUserId(Long id);
 	void saveTodo(Todo todo);
-	void deleteTodo(Todo todo);
+	void deleteTodo(Long id);
 }

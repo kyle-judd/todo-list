@@ -21,11 +21,6 @@ public class NavController {
 	private TodoService todoService;
 	
 	@GetMapping("/")
-	public String landingPage() {
-		return "index";
-	}
-	
-	@GetMapping("/home")
 	public String home(Model model) {
 		User loggedInUser = getLoggedInUser();
 		model.addAttribute("allTodos", todoService.findAllTodosByUserId(loggedInUser.getId()));

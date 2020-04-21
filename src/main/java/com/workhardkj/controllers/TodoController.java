@@ -3,6 +3,7 @@ package com.workhardkj.controllers;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.core.Authentication;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workhardkj.entity.Todo;
 import com.workhardkj.entity.User;
@@ -42,11 +44,24 @@ public class TodoController {
 	}
 	
 	@PostMapping("/saveTodo")
-	public String saveTodo(@ModelAttribute("new-todo") Todo todo) {
+	public String saveTodo(@ModelAttribute("newtodo") Todo todo) {
 		User loggedInUser = getLoggedInUser();
 		todo.setUser(loggedInUser);
 		todoService.saveTodo(todo);
-		return "redirect:/home";
+		return "redirect:/";
+	}
+	
+	@GetMapping("/deleteTodo")
+	public String deleteTodo(@RequestParam("todoId") Long id) {
+		todoService.deleteTodo(id);
+		return "redirect:/";
+	}
+	
+	@GetMapping("/updateTodo")
+	public String updateTodo(@RequestParam("todoId") Long id, Model model) throws Exception {
+		Todo todo = todoService.findTodoById(id);
+		model.addAttribute("newtodo", todo);
+		return "add-todo";
 	}
 	
 	private User getLoggedInUser() {
